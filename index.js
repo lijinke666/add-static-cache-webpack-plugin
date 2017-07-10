@@ -2,7 +2,7 @@
  * @Author: jinke.li 
  * @Date: 2017-07-10 14:32:28 
  * @Last Modified by: jinke.li
- * @Last Modified time: 2017-07-10 16:17:52
+ * @Last Modified time: 2017-07-10 16:30:21
  */
 const fs = require('fs')
 const path = require('path')
@@ -49,13 +49,12 @@ AddStaticCachePlugin.prototype.apply = function (compiler) {
                 fontsPath.push(filename)
             }
         }
-        console.log(fontsPath);
-        console.log(this.transformFilePath(fontsPath));
         const appcache = this.replaceFileData(this.tpl)
             (this.cacheTime)
             (this.transformFilePath(cssPaths))
             (this.transformFilePath(fontsPath))
             (this.transformFilePath(imagesPath))
+            (this.comments)
 
         console.log('transform cache file finish');
         assets[this.cacheName] = {
@@ -131,12 +130,13 @@ AddStaticCachePlugin.prototype.currentTime = function () {
 //替换模板 reaplace cache file temp
 AddStaticCachePlugin.prototype.replaceFileData = function (fileLists = "") {
     const tempStringConfig = this.tempStringConfig
-    return (date) => (cssPath) => (fontsPath) => (imagesPath) => {
+    return (date) => (cssPath) => (fontsPath) => (imagesPath) => (comments)=> {
         return fileLists
             .replace(tempStringConfig['date'], date)
             .replace(tempStringConfig['cssPath'], cssPath)
             .replace(tempStringConfig['fontsPath'], fontsPath)
             .replace(tempStringConfig['imagesPath'], imagesPath)
+            .replace(tempStringConfig['comments'], comments)
     }
 },
 

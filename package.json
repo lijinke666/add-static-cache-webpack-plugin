@@ -1,6 +1,6 @@
 {
   "name": "add-static-cache-webpack-plugin",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "Jinke.Li",
   "license": "MIT",
   "description": "add static HTML5 cache file in yours project",
