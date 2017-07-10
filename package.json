@@ -1,0 +1,23 @@
+{
+  "name": "add-static-cache-webpack-plugin",
+  "version": "0.0.1",
+  "author": "Jinke.Li",
+  "license": "MIT",
+  "description": "add static HTML5 cache file in yours project",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/baldore/webpack-open-plugin.git"
+  },
+  "keywords": [
+    "webpack",
+    "plugin",
+    "cache",
+    "static",
+    "manifest",
+    "html5"
+  ],
+  "devDependencies": {
+    "debug": "^2.6.8"
+  }
+}
