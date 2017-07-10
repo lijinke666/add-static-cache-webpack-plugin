@@ -2,7 +2,7 @@
  * @Author: jinke.li 
  * @Date: 2017-07-10 14:32:28 
  * @Last Modified by: jinke.li
- * @Last Modified time: 2017-07-10 16:07:13
+ * @Last Modified time: 2017-07-10 16:11:57
  */
 const fs = require('fs')
 const path = require('path')
@@ -18,7 +18,7 @@ const path = require('path')
 function AddStaticCachePlugin(options = {}) {
     this.cacheTime = options.cacheTime || this.currentTime()
     this.template = options.template
-    this.pulicPath = options.publicPath || ""
+    this.publicPath = options.publicPath || ""
     this.tempStringConfig = {
         date: "{date}",
         cssPath: "{cssPath}",
@@ -71,10 +71,10 @@ AddStaticCachePlugin.prototype.apply = function (compiler) {
 //文件路径 转换   change Array => paths
 AddStaticCachePlugin.prototype.transformFilePath = function (paths = []) {
     if (paths.length <= 1) {
-        return `${this.pulicPath}${paths[0]}\n`
+        return `${this.publicPath + paths[0]}\n`
     } else {
         return paths.reduce((str, next) => {
-            str += `${this.publicPath}${next}\n`
+            str += `${this.publicPath + next}\n`
             return str
         }, "")
     }
