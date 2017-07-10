@@ -2,7 +2,7 @@
  * @Author: jinke.li 
  * @Date: 2017-07-10 14:32:28 
  * @Last Modified by: jinke.li
- * @Last Modified time: 2017-07-10 15:51:46
+ * @Last Modified time: 2017-07-10 15:55:00
  */
 const fs = require('fs')
 const path = require('path')
@@ -52,7 +52,6 @@ AddStaticCachePlugin.prototype.apply = function (compiler) {
             (this.transformFilePath(cssPaths))
             (this.transformFilePath(fontsPath))
             (this.transformFilePath(imagesPath))
-            (this.comments)
 
         console.log('transform cache file finish');
         assets[this.cacheName] = {
@@ -77,10 +76,10 @@ AddStaticCachePlugin.prototype.transformFilePath = function (paths = []) {
     }
 
 },
-//保存模板文件 save temp cache file
-AddStaticCachePlugin.prototype.readCacheTempFile = function (saveTempPath) {
-    return fs.writeFileSync(saveTempPath, this.tpl)
-}
+    //保存模板文件 save temp cache file
+    AddStaticCachePlugin.prototype.readCacheTempFile = function (saveTempPath) {
+        return fs.writeFileSync(saveTempPath, this.tpl)
+    }
 
 //读取模板文件 read temp cache file
 AddStaticCachePlugin.prototype.readCacheTempFile = function (tempPath) {
@@ -92,7 +91,7 @@ AddStaticCachePlugin.prototype.createCacheTempFile = function () {
     const tempStringConfig = this.tempStringConfig
     const defaultTpl = ` 
 CACHE MANIFEST
-# ${tempStringConfig['comments']}
+# ${this.comments}
 # ${tempStringConfig['date']}
 ${tempStringConfig['cssPath']}
 ${tempStringConfig['fontsPath']}
@@ -130,14 +129,13 @@ AddStaticCachePlugin.prototype.currentTime = function () {
 AddStaticCachePlugin.prototype.replaceFileData = function (fileLists = "") {
     const tempStringConfig = this.tempStringConfig
     // const replaceData = fileLists.replace(tempStringConfig['date'], this.cacheTime)
-    return (date) => (cssPath)=> (fontsPath) => (imagesPath) => (comments)=> {
+    return (date) => (cssPath) => (fontsPath) => (imagesPath) => {
         return fileLists
             .replace(tempStringConfig['date'], date)
             .replace(tempStringConfig['cssPath'], cssPath)
             .replace(tempStringConfig['fontsPath'], fontsPath)
             .replace(tempStringConfig['imagesPath'], imagesPath)
-            .replace(tempStringConfig['comments'], comments)
     }
 },
 
-module.exports = AddStaticCachePlugin
+    module.exports = AddStaticCachePlugin
