@@ -2,7 +2,7 @@
  * @Author: jinke.li 
  * @Date: 2017-07-10 14:32:28 
  * @Last Modified by: jinke.li
- * @Last Modified time: 2017-07-10 16:11:57
+ * @Last Modified time: 2017-07-10 16:17:52
  */
 const fs = require('fs')
 const path = require('path')
@@ -100,7 +100,6 @@ CACHE MANIFEST
 ${tempStringConfig['cssPath']}
 ${tempStringConfig['fontsPath']}
 ${tempStringConfig['imagesPath']}
-${tempStringConfig['iconPath']}
 
 
 NETWORK:
@@ -132,7 +131,6 @@ AddStaticCachePlugin.prototype.currentTime = function () {
 //替换模板 reaplace cache file temp
 AddStaticCachePlugin.prototype.replaceFileData = function (fileLists = "") {
     const tempStringConfig = this.tempStringConfig
-    // const replaceData = fileLists.replace(tempStringConfig['date'], this.cacheTime)
     return (date) => (cssPath) => (fontsPath) => (imagesPath) => {
         return fileLists
             .replace(tempStringConfig['date'], date)
