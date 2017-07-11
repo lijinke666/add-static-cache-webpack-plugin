@@ -33,10 +33,10 @@ module.exports = {
   - default : `{DEFAULT TEMP FILE}`
 - #### cacheName
   - type : `String`
-  - default : `app.appcache`
+  - default : `'app.appcache'`
 - #### comments
   - type : `String`
-  - default : `add static cache webpack plugin appCache`
+  - default : `'add static cache webpack plugin appCache'`
 - #### publicPath
   - type : `String`
   - default : ""
