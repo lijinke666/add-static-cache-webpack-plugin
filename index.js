@@ -24,6 +24,7 @@ function AddStaticCachePlugin(options = {}) {
         cssPath: "{cssPath}",
         fontsPath: "{fontsPath}",
         imagesPath: "{imagesPath}",
+        jsPath: "{jsPath}",
         comments: "{comments}",
     }
     this.defaultTplName = 'cacheTemp.tpl'
@@ -38,7 +39,7 @@ function AddStaticCachePlugin(options = {}) {
 AddStaticCachePlugin.prototype.apply = function (compiler) {
     compiler.plugin('emit', (compliation, callback) => {
         const { assets } = compliation
-        const [cssPaths, fontsPath, imagesPath] = [[], [], []]
+        const [cssPaths, fontsPath, imagesPath, jsPath] = [[], [], [], []]
         for (let filename in assets) {
 
             if (/\.(jpg|jpeg|png|gif|cur|ico)$/i.test(filename)) {
@@ -47,6 +48,8 @@ AddStaticCachePlugin.prototype.apply = function (compiler) {
                 cssPaths.push(filename)
             } else if (/\.(eot|ttf|svg|woff|woff2)$/i.test(filename)) {
                 fontsPath.push(filename)
+            } else if (/\.jsx?$/i.test(filename)) {
+                jsPath.push(filename)
             }
         }
         const appcache = this.replaceFileData(this.tpl)
@@ -54,6 +57,7 @@ AddStaticCachePlugin.prototype.apply = function (compiler) {
             (this.transformFilePath(cssPaths))
             (this.transformFilePath(fontsPath))
             (this.transformFilePath(imagesPath))
+            (this.transformFilePath(jsPath))
             (this.comments)
 
         console.log('transform cache file finish');
@@ -79,10 +83,10 @@ AddStaticCachePlugin.prototype.transformFilePath = function (paths = []) {
     }
 
 },
-    //保存模板文件 save temp cache file
-    AddStaticCachePlugin.prototype.readCacheTempFile = function (saveTempPath) {
-        return fs.writeFileSync(saveTempPath, this.tpl)
-    }
+//保存模板文件 save temp cache file
+AddStaticCachePlugin.prototype.readCacheTempFile = function (saveTempPath) {
+    return fs.writeFileSync(saveTempPath, this.tpl)
+}
 
 //读取模板文件 read temp cache file
 AddStaticCachePlugin.prototype.readCacheTempFile = function (tempPath) {
@@ -93,16 +97,16 @@ AddStaticCachePlugin.prototype.readCacheTempFile = function (tempPath) {
 AddStaticCachePlugin.prototype.createCacheTempFile = function () {
     const tempStringConfig = this.tempStringConfig
     const defaultTpl = ` 
-CACHE MANIFEST
-# ${this.comments}
-# ${tempStringConfig['date']}
-${tempStringConfig['cssPath']}
-${tempStringConfig['fontsPath']}
-${tempStringConfig['imagesPath']}
+        CACHE MANIFEST
+        # ${this.comments}
+        # ${tempStringConfig['date']}
+        ${tempStringConfig['cssPath']}
+        ${tempStringConfig['fontsPath']}
+        ${tempStringConfig['imagesPath']}
+        ${tempStringConfig['jsPath']}
 
-
-NETWORK:
-*
+        NETWORK:
+        *
     `
     fs.writeFileSync(this.tempFilePath, defaultTpl)
     this.tpl || (this.tpl = fs.readFileSync(this.tempFilePath).toString())
@@ -130,12 +134,13 @@ AddStaticCachePlugin.prototype.currentTime = function () {
 //替换模板 reaplace cache file temp
 AddStaticCachePlugin.prototype.replaceFileData = function (fileLists = "") {
     const tempStringConfig = this.tempStringConfig
-    return (date) => (cssPath) => (fontsPath) => (imagesPath) => (comments)=> {
+    return (date) => (cssPath) => (fontsPath) => (imagesPath) => (jsPath) => (comments) => {
         return fileLists
             .replace(tempStringConfig['date'], date)
             .replace(tempStringConfig['cssPath'], cssPath)
             .replace(tempStringConfig['fontsPath'], fontsPath)
             .replace(tempStringConfig['imagesPath'], imagesPath)
+            .replace(tempStringConfig['jsPath'], jsPath)
             .replace(tempStringConfig['comments'], comments)
     }
 },
