@@ -52,6 +52,7 @@ module.exports = {
           {cssPath}
           {fontsPath}
           {imagesPath}
+          {jsPath}
 
 
           NETWORK:
