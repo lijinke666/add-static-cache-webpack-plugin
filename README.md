@@ -68,7 +68,7 @@ module.exports = {
  - ##### {comments}
  
  ### if your want custom template like
- `mkdir xx.tpl`
+ `mkdir my.tpl`
  ```
    CACHE MANIFEST
   # {comments}
@@ -90,17 +90,19 @@ module.exports = {
  
  ```javascript
      new AddStaticCachePlugin({
-      tempalte:"./xx.tpl",                    // Not required Default template  See the instructions below
-      cacheName:"jinke.appcache",     // Not required Default `app.appcache`
+      tempalte:"./my.tpl",                    // Not required Default template  See the instructions below
+      cacheName:"demo.appcache",     // Not required Default `app.appcache`
       comments:"I am commnets",       // Not required Default `add static cache webpack plugin appCache`
       publicPath:"/static/"                  // Not required Default create temp file in your `webpack.config.js` `output options publicPath`
     })
  ```
  
  #### It looks something like this after compilation
+ 
+ `/static/demo.appcache`
  ```
  CACHE MANIFEST
-# lijinkeWeb appCache by add-static-cache-webpack-plugin
+# I an comments
 # 2017/7/10 16:40:00
 /static/css/app.e2bba250.css
 
@@ -122,3 +124,15 @@ FALLBACK
 # feeStyle
 /static/ /404.html
  ```
+ 
+ #### Then
+ ##### Import him in your `html` file
+ 
+ ```javascript
+<html lang="zh" manifest="/static/demo.appcache">
+...
+</html>
+ ```
+ 
+ `F12` look Application => Cache => Application Cache 
+ There should be your cache :)
