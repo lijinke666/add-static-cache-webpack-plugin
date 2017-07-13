@@ -127,6 +127,7 @@ FALLBACK
  
  #### Then
  ##### Import him in your `html` file
+ ##### If your use `html-webpack-plugin`  You can omit this step It will be auto import :)
  
  ```javascript
 <html lang="zh" manifest="/static/demo.appcache">
